@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data Collection</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div class="college-info">
+            <p>Pydah College of Engineering</p>
+            <p>ECE Department</p>
+            <p>Contact: +91 7675872493</p>
+        </div>
+    </div>
+    <form id="studentForm">
+        <!-- Other input fields -->
+        <label for="pinNo">PIN NO:</label>
+        <input type="text" id="pinNo" name="pinNo" required><br><br>
+        <label for="name">NAME OF THE STUDENT:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="branch">BRANCH:</label>
+        <input type="text" id="branch" name="branch" required><br><br>
+        <label for="fathersName">FATHERS NAME:</label>
+        <input type="text" id="fathersName" name="fathersName" required><br><br>
+        <label for="occupation">OCCUPATION:</label>
+        <input type="text" id="occupation" name="occupation" required><br><br>
+        <label for="studentNo">STUDENT NO:</label>
+        <input type="text" id="studentNo" name="studentNo" required><br><br>
+        <label for="fatherNo">FATHER NO:</label>
+        <input type="text" id="fatherNo" name="fatherNo" required><br><br>
+        <label for="mailId">MAIL.ID:</label>
+        <input type="email" id="mailId" name="mailId" required><br><br>
+        <label for="aadharNo">AADHAR NO:</label>
+        <input type="text" id="aadharNo" name="aadharNo" required><br><br>
+        <label for="panNo">PAN NO:</label>
+        <input type="text" id="panNo" name="panNo" required><br><br>
+        <label for="address">ADDRESS:</label>
+        <input type="text" id="address" name="address" required><br><br>
+        <label for="homeTown">HOME TOWN:</label>
+        <input type="text" id="homeTown" name="homeTown" required><br><br>
+        <label for="pinCode">PIN CODE:</label>
+        <input type="text" id="pinCode" name="pinCode" required><br><br>
+        <label for="gender">GENDER:</label>
+        <input type="text" id="gender" name="gender" required><br><br>
+        <label for="dob">DOB:</label>
+        <input type="date" id="dob" name="dob" required><br><br>
+        <label for="xthCgpa">XTH CGPA:</label>
+        <input type="text" id="xthCgpa" name="xthCgpa" required><br><br>
+        <label for="xthYearOfPassing">XTH YEAR OF PASSING:</label>
+        <input type="text" id="xthYearOfPassing" name="xthYearOfPassing" required><br><br>
+        <label for="xthBoard">XTH BOARD:</label>
+        <input type="text" id="xthBoard" name="xthBoard" required><br><br>
+        <label for="xthSchoolName">XTH SCHOOL NAME:</label>
+        <input type="text" id="xthSchoolName" name="xthSchoolName" required><br><br>
+
+        <!-- Education Type Dropdown -->
+        <label for="educationType">EDUCATION TYPE:</label>
+        <select id="educationType" name="educationType" onchange="toggleFields(this.value)" required>
+            <option value="">Select education type</option>
+            <option value="inter">Intermediate</option>
+            <option value="diploma">Diploma</option>
+        </select><br><br>
+
+        <!-- Intermediate Fields -->
+        <div class="form-group conditional" id="interFields">
+            <label for="interCgpa">INTER CGPA:</label>
+            <input type="text" id="interCgpa" name="interCgpa"><br><br>
+            <label for="interYearOfPassing">INTER YEAR OF PASSING:</label>
+            <input type="text" id="interYearOfPassing" name="interYearOfPassing"><br><br>
+            <label for="interBoard">INTER BOARD:</label>
+            <input type="text" id="interBoard" name="interBoard"><br><br>
+            <label for="interCollegeName">INTER COLLEGE NAME:</label>
+            <input type="text" id="interCollegeName" name="interCollegeName"><br><br>
+        </div>
+
+        <!-- Diploma Fields -->
+        <div class="form-group conditional" id="diplomaFields">
+            <label for="diplomaCgpa">DIPLOMA CGPA:</label>
+            <input type="text" id="diplomaCgpa" name="diplomaCgpa"><br><br>
+            <label for="diplomaYearOfPassing">DIPLOMA YEAR OF PASSING:</label>
+            <input type="text" id="diplomaYearOfPassing" name="diplomaYearOfPassing"><br><br>
+            <label for="diplomaBoard">DIPLOMA BOARD:</label>
+            <input type="text" id="diplomaBoard" name="diplomaBoard"><br><br>
+            <label for="diplomaCollegeName">DIPLOMA COLLEGE NAME:</label>
+            <input type="text" id="diplomaCollegeName" name="diplomaCollegeName"><br><br>
+        </div>
+
+        <!-- Remaining Fields -->
+        <label for="thirdYearCgpa">3RD YEAR CGPA:</label>
+        <input type="text" id="thirdYearCgpa" name="thirdYearCgpa" required><br><br>
+        <label for="backlogs">BACKLOGS:</label>
+        <input type="text" id="backlogs" name="backlogs" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="app.js"></script>
+    <script>
+        function toggleFields(value) {
+            var interFields = document.getElementById('interFields');
+            var diplomaFields = document.getElementById('diplomaFields');
+            
+            if (value === 'inter') {
+                interFields.style.display = 'block';
+                diplomaFields.style.display = 'none';
+                clearFields(diplomaFields);
+            } else if (value === 'diploma') {
+                diplomaFields.style.display = 'block';
+                interFields.style.display = 'none';
+                clearFields(interFields);
+            } else {
+                interFields.style.display = 'none';
+                diplomaFields.style.display = 'none';
+                clearFields(interFields);
+                clearFields(diplomaFields);
+            }
+        }
+
+        function clearFields(container) {
+            var inputs = container.getElementsByTagName('input');
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].value = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('interFields').style.display = 'none';
+            document.getElementById('diplomaFields').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
